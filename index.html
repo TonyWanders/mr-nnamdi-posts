@@ -29,6 +29,10 @@ button.dlall { display: block; width: 100%; padding: 12px; font-size: 16px; font
 .textblock h3 { font-size: 15px; margin: 0 0 6px 0; }
 .textblock pre { white-space: pre-wrap; word-wrap: break-word; font-family: inherit; font-size: 15px; line-height: 1.7; background: #fafafa; border: 1px solid #eee; border-radius: 8px; padding: 12px; margin: 0 0 8px 0; }
 button.copy { padding: 10px 18px; font-size: 15px; font-weight: bold; background: #011a50; color: #fff; border: none; border-radius: 8px; }
+.daynav { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 0; background: #f4f4f4; position: sticky; top: 64px; z-index: 9; }
+.daynav span { width: 100%; font-size: 13px; font-weight: bold; color: #555; }
+.daynav button { padding: 8px 12px; font-size: 14px; font-weight: bold; border: 1px solid #011a50; background: #fff; color: #011a50; border-radius: 20px; }
+.daynav button.active { background: #011a50; color: #fff; }
 </style>
 </head>
 <body>
@@ -42,6 +46,15 @@ button.copy { padding: 10px 18px; font-size: 15px; font-weight: bold; background
 </nav>
 <main>
 <div id="section-cw">
+<div class="daynav" id="daynav-cw"><span>Go to a day:</span>
+<button onclick="goToDay('cw-tue', this)">Tue 24</button>
+<button onclick="goToDay('cw-wed', this)">Wed 25</button>
+<button onclick="goToDay('cw-thu', this)">Thu 26</button>
+<button onclick="goToDay('cw-fri', this)">Fri 27</button>
+<button onclick="goToDay('cw-sat', this)">Sat 28</button>
+<button onclick="goToDay('cw-sun', this)">Sun 29</button>
+<button onclick="goToDay('cw-mon', this)">Mon 30</button>
+</div>
 <section class="day" id="cw-tue">
 <h2>Tuesday 24 November 2026<br><span>Post 5: Your Boss Is Not Paying You To Be Busy. Your Boss Is Paying You To Produce Results.</span></h2>
 <button class="dlall" data-day="cw-tue">Download All Carousel (11 pictures)</button>
@@ -1260,6 +1273,14 @@ To secure your place, contact our team.
 </section>
 </div>
 <div id="section-cd" style="display:none">
+<div class="daynav" id="daynav-cd"><span>Go to a day:</span>
+<button onclick="goToDay('cd-wed', this)">Wed 25</button>
+<button onclick="goToDay('cd-thu', this)">Thu 26</button>
+<button onclick="goToDay('cd-fri', this)">Fri 27</button>
+<button onclick="goToDay('cd-sat', this)">Sat 28</button>
+<button onclick="goToDay('cd-sun', this)">Sun 29</button>
+<button onclick="goToDay('cd-mon', this)">Mon 30</button>
+</div>
 <section class="day" id="cd-wed">
 <h2>Wednesday 25 November 2026<br><span>General promotion, 8 Days to Go</span></h2>
 <button class="dlall" data-day="cd-wed">Download All Carousel (1 picture)</button>
@@ -2110,6 +2131,17 @@ Call 09167063877.
 </div>
 </main>
 <script>
+function goToDay(id, btn) {
+  var el = document.getElementById(id);
+  if (!el) { return; }
+  if (btn) {
+    var nav = btn.parentElement;
+    nav.querySelectorAll('button').forEach(function (b) { b.className = ''; });
+    btn.className = 'active';
+  }
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  try { localStorage.setItem('mrNnamdiPostsDay', id); } catch (e) {}
+}
 function showTab(which) {
   document.getElementById('section-cw').style.display = which === 'cw' ? 'block' : 'none';
   document.getElementById('section-cd').style.display = which === 'cd' ? 'block' : 'none';
