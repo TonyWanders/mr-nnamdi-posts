@@ -2115,7 +2115,25 @@ function showTab(which) {
   document.getElementById('section-cd').style.display = which === 'cd' ? 'block' : 'none';
   document.getElementById('tab-cw').className = which === 'cw' ? 'active' : '';
   document.getElementById('tab-cd').className = which === 'cd' ? 'active' : '';
+  try { localStorage.setItem('mrNnamdiPostsTab', which); } catch (e) {}
+  window.scrollTo(0, 0);
 }
+try {
+  var savedTab = localStorage.getItem('mrNnamdiPostsTab');
+  if (savedTab === 'cd' || savedTab === 'cw') { showTab(savedTab); }
+  var savedScroll = localStorage.getItem('mrNnamdiPostsScroll');
+  if (savedScroll !== null) { setTimeout(function () { window.scrollTo(0, parseInt(savedScroll, 10) || 0); }, 100); }
+} catch (e) {}
+var saveScrollTimer = null;
+window.addEventListener('scroll', function () {
+  if (saveScrollTimer) { clearTimeout(saveScrollTimer); }
+  saveScrollTimer = setTimeout(function () {
+    try { localStorage.setItem('mrNnamdiPostsScroll', String(window.scrollY || 0)); } catch (e) {}
+  }, 300);
+});
+window.addEventListener('beforeunload', function () {
+  try { localStorage.setItem('mrNnamdiPostsScroll', String(window.scrollY || 0)); } catch (e) {}
+});
 document.querySelectorAll('button.copy').forEach(function (btn) {
   btn.addEventListener('click', function () {
     var text = document.getElementById(btn.getAttribute('data-target')).textContent;
